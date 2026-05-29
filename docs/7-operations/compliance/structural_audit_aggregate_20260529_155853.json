@@ -1,0 +1,15 @@
+{
+  "members": [
+    {
+      "failed": 18,
+      "member": "main/features/process",
+      "passed": 142,
+      "skipped": 0
+    }
+  ],
+  "mode": "package",
+  "timestamp": "2026-05-29T15:58:53.633650700+02:00",
+  "total_failed": 18,
+  "total_members": 1,
+  "total_passed": 142
+}

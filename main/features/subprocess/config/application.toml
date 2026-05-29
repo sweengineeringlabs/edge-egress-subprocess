@@ -1,0 +1,32 @@
+# Subprocess execution policy — loaded as the [process] section.
+# All fields are optional; absent keys use the compiled defaults shown here.
+# Operators override this file per environment.
+
+[process]
+# Commands the runner is permitted to spawn (basenames, no path prefix).
+# EMPTY = block all commands. Must be set explicitly for any subprocess to run.
+allow_commands = []
+
+# Wall-clock deadline in milliseconds. Process is killed on expiry.
+timeout_ms = 30000
+
+# Maximum combined stdout + stderr bytes buffered per invocation.
+# Output beyond this cap is silently truncated; exit code is still captured.
+output_bytes_cap = 1048576
+
+# CPU time limit in milliseconds (user + system).
+# Enforced via setrlimit(RLIMIT_CPU) on Linux. 0 = unlimited (default).
+cpu_time_ms = 0
+
+# Maximum virtual address space in bytes.
+# Enforced via setrlimit(RLIMIT_AS) on Linux. 0 = unlimited (default).
+memory_bytes = 0
+
+# Working directory for the child process.
+# Absent = inherits parent working directory.
+# cwd = "/var/data/jobs"
+
+# Environment variables passed to the child process.
+# Child never inherits the parent environment — fail-closed by default.
+# [process.env]
+# TMPDIR = "/var/tmp"
