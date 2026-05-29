@@ -113,6 +113,10 @@ path = "tests/outcome_int_test.rs"
 name = "application_config_builder_int_test"
 path = "tests/application_config_builder_int_test.rs"
 
+[[test]]
+name = "subprocess_svc_int_test"
+path = "tests/subprocess_svc_int_test.rs"
+
 [lints.rust]
 unsafe_code  = "deny"
 missing_docs = "warn"
