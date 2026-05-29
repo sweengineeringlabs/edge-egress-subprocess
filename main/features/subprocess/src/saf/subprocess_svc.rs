@@ -11,29 +11,19 @@ use crate::core::swe::default::{DefaultProcessValidator, DefaultSweEdgeEgressPro
 pub use futures::future::BoxFuture;
 
 impl SubprocessSvc {
-    /// Return a [`ConfigBuilder`] pre-seeded with this crate's package name and version.
-    ///
-    /// Call `.build_loader()` on the result, then load policy via
-    /// [`SubprocessConfig::load`]. Pass the loaded config to [`SubprocessConfig::with_argv`]
-    /// to produce a per-call [`SubprocessArgs`].
-    pub fn config_builder() -> swe_edge_configbuilder::ConfigBuilderImpl {
-        swe_edge_configbuilder::ConfigLoaderFactory::create_config_builder()
-            .with_name(env!("CARGO_PKG_NAME"))
-            .with_version(env!("CARGO_PKG_VERSION"))
-    }
-
     /// Return a [`SubprocessRunner`] backed by `tokio::process::Command`.
     ///
     /// The returned runner is stateless and safe to share behind
     /// `Arc<dyn SubprocessRunner>` across concurrent callers.
     ///
     /// Spawn policy — allow-list, timeout, byte cap — comes from [`SubprocessConfig`]
-    /// loaded via TOML. Supply only the per-call `argv` at the call site.
+    /// loaded via TOML. Load config via [`swe_edge_configbuilder::create_loader`]
+    /// and supply only the per-call `argv` at the call site.
     ///
     /// # Example
     ///
     /// ```rust,no_run
-    /// use swe_edge_configbuilder::{ConfigSection as _, ConfigLoaderFactory};
+    /// use swe_edge_configbuilder::{ConfigLoaderFactory, ConfigSection as _};
     /// use swe_edge_egress_subprocess::{SubprocessSvc, SubprocessConfig, SubprocessRunner};
     ///
     /// # #[tokio::main]
