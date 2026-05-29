@@ -10,8 +10,10 @@ pub mod types;
 
 pub use error::{Error, IsolationError};
 pub use traits::{
-    AllowList, IsolationProfile, ProcessRunner, Processor, SweEdgeEgressProcess, Validator,
+    AllowList, IsolationProfile, Processor, SubprocessRunner, SubprocessRunnerExtension,
+    SweEdgeEgressProcess, Validator,
 };
 pub use types::{
-    ProcessArgs, ProcessArgsBuilder, ProcessConfig, ProcessConfigBuilder, ProcessResult, ProcessSvc,
+    SubprocessArgs, SubprocessArgsBuilder, SubprocessConfig, SubprocessConfigBuilder,
+    SubprocessResult, SubprocessSvc,
 };

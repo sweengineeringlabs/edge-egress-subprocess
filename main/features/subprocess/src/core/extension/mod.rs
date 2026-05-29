@@ -1,4 +1,4 @@
-//! Extension runner — adapts [`ProcessRunnerExtension`] into [`ProcessRunner`].
+//! Extension runner — adapts [`SubprocessRunnerExtension`] into [`SubprocessRunner`].
 
 pub(crate) mod runner;
 

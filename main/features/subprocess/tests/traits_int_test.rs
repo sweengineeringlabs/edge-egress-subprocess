@@ -1,4 +1,4 @@
-//! Integration tests for swe-edge-egress-process API traits.
+//! Integration tests for swe-edge-egress-subprocess API traits.
 
 use swe_edge_egress_subprocess::*;
 
@@ -11,6 +11,6 @@ fn test_validator_trait_is_object_safe() {
 /// @covers: create_validator
 #[test]
 fn test_create_validator_returns_valid_impl() {
-    let v = ProcessSvc::validator();
+    let v = SubprocessSvc::validator();
     assert!(v.validate().is_ok());
 }

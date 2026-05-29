@@ -2,5 +2,5 @@
 
 pub mod runner;
 
-pub use crate::api::traits::process_runner::ProcessRunner;
-pub use crate::api::traits::process_runner_extension::ProcessRunnerExtension;
+pub use crate::api::traits::subprocess::subprocess_runner::SubprocessRunner;
+pub use crate::api::traits::subprocess::subprocess_runner_extension::SubprocessRunnerExtension;

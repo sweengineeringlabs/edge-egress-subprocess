@@ -1,22 +1,24 @@
-//! `ProcessConfig` — TOML-loaded policy for subprocess execution.
+//! `SubprocessConfig` — TOML-loaded policy for subprocess execution.
 
 use std::collections::HashMap;
 use std::path::PathBuf;
 
 use swe_edge_configbuilder::ConfigSection;
 
-use crate::api::types::process::process_args::{ProcessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS};
+use crate::api::types::subprocess::subprocess_args::{
+    SubprocessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS,
+};
 
-/// Static subprocess policy loaded from the `[process]` TOML section.
+/// Static subprocess policy loaded from the `[subprocess]` TOML section.
 ///
 /// These fields are constant across all calls — they define what the service
 /// is allowed to run.  Per-call `argv` is supplied at the call site via
-/// [`ProcessConfig::with_argv`].
+/// [`SubprocessConfig::with_argv`].
 ///
 /// # TOML example
 ///
 /// ```toml
-/// [process]
+/// [subprocess]
 /// allow_commands   = ["ffmpeg", "convert"]
 /// timeout_ms       = 10000
 /// output_bytes_cap = 2097152
@@ -24,23 +26,23 @@ use crate::api::types::process::process_args::{ProcessArgs, DEFAULT_OUTPUT_BYTES
 /// memory_bytes     = 536870912  # 512 MiB; 0 = unlimited
 /// cwd              = "/var/data/jobs"
 ///
-/// [process.env]
+/// [subprocess.env]
 /// TMPDIR = "/var/tmp"
 /// ```
 #[derive(Debug, Clone, serde::Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct ProcessConfig {
+pub struct SubprocessConfig {
     /// Command basenames the runner is permitted to spawn.
     /// An empty list blocks all commands.
     #[serde(default)]
     pub allow_commands: Vec<String>,
 
     /// Wall-clock deadline in milliseconds applied to every invocation.
-    #[serde(default = "ProcessConfig::default_timeout_ms")]
+    #[serde(default = "SubprocessConfig::default_timeout_ms")]
     pub timeout_ms: u64,
 
     /// Maximum combined stdout + stderr bytes buffered per invocation.
-    #[serde(default = "ProcessConfig::default_output_bytes_cap")]
+    #[serde(default = "SubprocessConfig::default_output_bytes_cap")]
     pub output_bytes_cap: u64,
 
     /// Working directory for the child process.
@@ -65,7 +67,7 @@ pub struct ProcessConfig {
     pub memory_bytes: Option<u64>,
 }
 
-impl Default for ProcessConfig {
+impl Default for SubprocessConfig {
     fn default() -> Self {
         Self {
             allow_commands: Vec::new(),
@@ -79,13 +81,13 @@ impl Default for ProcessConfig {
     }
 }
 
-impl ConfigSection for ProcessConfig {
+impl ConfigSection for SubprocessConfig {
     fn section_name() -> &'static str {
-        "process"
+        "subprocess"
     }
 }
 
-impl ProcessConfig {
+impl SubprocessConfig {
     /// Default wall-clock timeout — used by serde `default`.
     pub fn default_timeout_ms() -> u64 {
         DEFAULT_TIMEOUT_MS
@@ -96,12 +98,12 @@ impl ProcessConfig {
         DEFAULT_OUTPUT_BYTES_CAP
     }
 
-    /// Combine this policy with a per-call `argv` to produce a [`ProcessArgs`].
+    /// Combine this policy with a per-call `argv` to produce a [`SubprocessArgs`].
     ///
     /// `isolation_profile` defaults to `None`; callers that need OS-level
-    /// isolation set it via `ProcessArgs::isolation_profile` after calling this.
-    pub fn with_argv(&self, argv: Vec<String>) -> ProcessArgs {
-        ProcessArgs {
+    /// isolation set it via `SubprocessArgs::isolation_profile` after calling this.
+    pub fn with_argv(&self, argv: Vec<String>) -> SubprocessArgs {
+        SubprocessArgs {
             argv,
             cwd: self.cwd.clone(),
             env: self.env.clone(),

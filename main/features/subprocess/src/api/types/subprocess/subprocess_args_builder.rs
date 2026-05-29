@@ -1,15 +1,15 @@
-//! `ProcessArgsBuilder` — builder for [`ProcessArgs`].
+//! `SubprocessArgsBuilder` — builder for [`SubprocessArgs`].
 
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::Arc;
 
 use crate::api::traits::isolation_profile::IsolationProfile;
-use crate::api::types::process::process_args::ProcessArgs;
+use crate::api::types::subprocess::subprocess_args::SubprocessArgs;
 
-/// Builder for [`ProcessArgs`].
+/// Builder for [`SubprocessArgs`].
 #[derive(Debug, Default)]
-pub struct ProcessArgsBuilder {
+pub struct SubprocessArgsBuilder {
     argv: Vec<String>,
     cwd: Option<PathBuf>,
     env: HashMap<String, String>,
@@ -21,7 +21,7 @@ pub struct ProcessArgsBuilder {
     isolation_profile: Option<Arc<dyn IsolationProfile>>,
 }
 
-impl ProcessArgsBuilder {
+impl SubprocessArgsBuilder {
     /// Set `argv`.  `argv[0]` is the binary; remaining entries are arguments.
     pub fn argv(mut self, argv: Vec<String>) -> Self {
         self.argv = argv;
@@ -76,9 +76,9 @@ impl ProcessArgsBuilder {
         self
     }
 
-    /// Consume the builder and return a [`ProcessArgs`].
-    pub fn build(self) -> ProcessArgs {
-        ProcessArgs {
+    /// Consume the builder and return a [`SubprocessArgs`].
+    pub fn build(self) -> SubprocessArgs {
+        SubprocessArgs {
             argv: self.argv,
             cwd: self.cwd,
             env: self.env,

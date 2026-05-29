@@ -1,13 +1,13 @@
-//! `ProcessConfigBuilder` — fluent builder for [`ProcessConfig`].
+//! `SubprocessConfigBuilder` — fluent builder for [`SubprocessConfig`].
 
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use crate::api::types::process::process_config::ProcessConfig;
+use crate::api::types::subprocess::subprocess_config::SubprocessConfig;
 
-/// Fluent builder for [`ProcessConfig`].
+/// Fluent builder for [`SubprocessConfig`].
 #[derive(Debug, Default)]
-pub struct ProcessConfigBuilder {
+pub struct SubprocessConfigBuilder {
     allow_commands: Vec<String>,
     timeout_ms: Option<u64>,
     output_bytes_cap: Option<u64>,
@@ -17,7 +17,7 @@ pub struct ProcessConfigBuilder {
     memory_bytes: Option<u64>,
 }
 
-impl ProcessConfigBuilder {
+impl SubprocessConfigBuilder {
     /// Set the list of allowed command basenames.
     pub fn allow_commands(mut self, commands: Vec<String>) -> Self {
         self.allow_commands = commands;
@@ -60,9 +60,9 @@ impl ProcessConfigBuilder {
         self
     }
 
-    /// Consume the builder and return a [`ProcessConfig`].
-    pub fn build(self) -> ProcessConfig {
-        let mut cfg = ProcessConfig::default();
+    /// Consume the builder and return a [`SubprocessConfig`].
+    pub fn build(self) -> SubprocessConfig {
+        let mut cfg = SubprocessConfig::default();
         cfg.allow_commands = self.allow_commands;
         if let Some(v) = self.timeout_ms {
             cfg.timeout_ms = v;

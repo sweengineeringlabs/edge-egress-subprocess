@@ -2,13 +2,13 @@
 
 use futures::future::BoxFuture;
 
-use crate::api::types::process::process_args::ProcessArgs;
-use crate::api::types::process::process_result::ProcessResult;
+use crate::api::types::subprocess::subprocess_args::SubprocessArgs;
+use crate::api::types::subprocess::subprocess_result::SubprocessResult;
 
 /// Primary trait for the `processor` service type.
 ///
 /// Implementors spawn subprocesses and return structured outcomes.
 pub trait Processor: Send + Sync + 'static {
     /// Execute a subprocess described by `args`.
-    fn process(&self, args: ProcessArgs) -> BoxFuture<'_, ProcessResult>;
+    fn process(&self, args: SubprocessArgs) -> BoxFuture<'_, SubprocessResult>;
 }

@@ -1,8 +1,8 @@
-# Subprocess execution policy — loaded as the [process] section.
+# Subprocess execution policy — loaded as the [subprocess] section.
 # All fields are optional; absent keys use the compiled defaults shown here.
 # Operators override this file per environment.
 
-[process]
+[subprocess]
 # Commands the runner is permitted to spawn (basenames, no path prefix).
 # EMPTY = block all commands. Must be set explicitly for any subprocess to run.
 allow_commands = []
@@ -28,5 +28,5 @@ memory_bytes = 0
 
 # Environment variables passed to the child process.
 # Child never inherits the parent environment — fail-closed by default.
-# [process.env]
+# [subprocess.env]
 # TMPDIR = "/var/tmp"

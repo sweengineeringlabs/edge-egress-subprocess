@@ -1,30 +1,30 @@
-//! Integration tests for `ProcessResult`.
+//! Integration tests for `SubprocessResult`.
 
-use swe_edge_egress_subprocess::ProcessResult;
+use swe_edge_egress_subprocess::SubprocessResult;
 
-/// @covers: ProcessResult::Denied
+/// @covers: SubprocessResult::Denied
 #[test]
-fn test_process_result_denied_is_debug() {
-    let r = ProcessResult::Denied {
+fn test_subprocess_result_denied_is_debug() {
+    let r = SubprocessResult::Denied {
         command: "rm".into(),
     };
     assert!(format!("{r:?}").contains("Denied"));
 }
 
-/// @covers: ProcessResult::SpawnFailed
+/// @covers: SubprocessResult::SpawnFailed
 #[test]
-fn test_process_result_spawn_failed_carries_reason() {
-    let r = ProcessResult::SpawnFailed {
+fn test_subprocess_result_spawn_failed_carries_reason() {
+    let r = SubprocessResult::SpawnFailed {
         reason: "binary not found".into(),
     };
     let dbg = format!("{r:?}");
     assert!(dbg.contains("SpawnFailed"));
 }
 
-/// @covers: ProcessResult::TimedOut
+/// @covers: SubprocessResult::TimedOut
 #[test]
-fn test_process_result_timed_out_carries_timeout_ms() {
-    let r = ProcessResult::TimedOut { timeout_ms: 200 };
+fn test_subprocess_result_timed_out_carries_timeout_ms() {
+    let r = SubprocessResult::TimedOut { timeout_ms: 200 };
     let dbg = format!("{r:?}");
     assert!(dbg.contains("TimedOut"));
 }

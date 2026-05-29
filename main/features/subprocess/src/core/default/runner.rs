@@ -1,7 +1,7 @@
-//! `DefaultProcessRunner` — in-process subprocess runner.
+//! `DefaultSubprocessRunner` — in-process subprocess runner.
 //!
 //! Backed by `tokio::process::Command`.  Stateless — safe to share behind
-//! `Arc<dyn ProcessRunner>` across concurrent callers.
+//! `Arc<dyn SubprocessRunner>` across concurrent callers.
 
 use std::process::Stdio;
 use std::time::Duration;
@@ -12,29 +12,31 @@ use tokio::process::Command;
 use tracing::{debug, warn};
 
 use crate::api::traits::processor::Processor;
-use crate::api::traits::process_runner::ProcessRunner;
-use crate::api::types::process::process_args::{ProcessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS};
-use crate::api::types::process::process_result::ProcessResult;
-use crate::core::allow::List;
+use crate::api::traits::subprocess::subprocess_runner::SubprocessRunner;
+use crate::api::types::subprocess::subprocess_args::{
+    SubprocessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS,
+};
+use crate::api::types::subprocess::subprocess_result::SubprocessResult;
+use crate::core::allow::NormalisedCommand;
 
-/// Default implementation of [`ProcessRunner`] and [`Processor`].
-pub(crate) struct DefaultProcessRunner;
+/// Default implementation of [`SubprocessRunner`] and [`Processor`].
+pub(crate) struct DefaultSubprocessRunner;
 
-impl DefaultProcessRunner {
-    /// Core execution logic shared by [`ProcessRunner::run`] and [`Processor::process`].
-    async fn execute(args: ProcessArgs) -> ProcessResult {
+impl DefaultSubprocessRunner {
+    /// Core execution logic shared by [`SubprocessRunner::run`] and [`Processor::process`].
+    async fn execute(args: SubprocessArgs) -> SubprocessResult {
         // 1. Require non-empty argv.
         let Some(cmd) = args.argv.first() else {
-            return ProcessResult::Denied {
+            return SubprocessResult::Denied {
                 command: String::new(),
             };
         };
 
         // 2. Allow-list check — deny before any spawn attempt.
-        if !List::is_allowed(cmd, &args.allow_commands) {
-            let normalised = List::normalise(cmd);
-            debug!(command = %normalised, "process runner denied — command not in allow-list");
-            return ProcessResult::Denied {
+        if !NormalisedCommand::is_allowed(cmd, &args.allow_commands) {
+            let normalised = NormalisedCommand::normalise(cmd);
+            debug!(command = %normalised, "subprocess runner denied — command not in allow-list");
+            return SubprocessResult::Denied {
                 command: normalised,
             };
         }
@@ -65,7 +67,7 @@ impl DefaultProcessRunner {
         if let Some(ref profile) = args.isolation_profile {
             if let Err(e) = profile.configure(&mut builder) {
                 warn!(profile = profile.name(), error = %e, "isolation configure failed");
-                return ProcessResult::IsolationFailed {
+                return SubprocessResult::IsolationFailed {
                     profile: profile.name().to_owned(),
                     reason: e.to_string(),
                 };
@@ -75,8 +77,8 @@ impl DefaultProcessRunner {
         let mut child = match builder.spawn() {
             Ok(c) => c,
             Err(e) => {
-                warn!(error = %e, "process runner spawn failed");
-                return ProcessResult::SpawnFailed {
+                warn!(error = %e, "subprocess runner spawn failed");
+                return SubprocessResult::SpawnFailed {
                     reason: e.to_string(),
                 };
             }
@@ -87,7 +89,7 @@ impl DefaultProcessRunner {
             if let Err(e) = profile.apply(&mut child) {
                 warn!(profile = profile.name(), error = %e, "isolation apply failed");
                 let _ = child.kill().await;
-                return ProcessResult::IsolationFailed {
+                return SubprocessResult::IsolationFailed {
                     profile: profile.name().to_owned(),
                     reason: e.to_string(),
                 };
@@ -101,13 +103,13 @@ impl DefaultProcessRunner {
         // Both handles are always Some because Stdio::piped() was set above.
         let Some(stdout_handle) = child.stdout.take() else {
             let _ = child.kill().await;
-            return ProcessResult::SpawnFailed {
+            return SubprocessResult::SpawnFailed {
                 reason: "stdout pipe was not established".to_owned(),
             };
         };
         let Some(stderr_handle) = child.stderr.take() else {
             let _ = child.kill().await;
-            return ProcessResult::SpawnFailed {
+            return SubprocessResult::SpawnFailed {
                 reason: "stderr pipe was not established".to_owned(),
             };
         };
@@ -135,7 +137,7 @@ impl DefaultProcessRunner {
                 //    gets the remainder up to `cap - stdout_len`.
                 let stdout_end = stdout_bytes.len().min(cap);
                 let stderr_end = stderr_bytes.len().min(cap.saturating_sub(stdout_bytes.len()));
-                ProcessResult::Completed {
+                SubprocessResult::Completed {
                     exit_code,
                     stdout: String::from_utf8_lossy(&stdout_bytes[..stdout_end]).into_owned(),
                     stderr: String::from_utf8_lossy(&stderr_bytes[..stderr_end]).into_owned(),
@@ -143,7 +145,7 @@ impl DefaultProcessRunner {
             }
             _ = tokio::time::sleep(Duration::from_millis(timeout_ms)) => {
                 let _ = child.kill().await;
-                ProcessResult::TimedOut { timeout_ms }
+                SubprocessResult::TimedOut { timeout_ms }
             }
         }
     }
@@ -188,15 +190,15 @@ impl DefaultProcessRunner {
     }
 }
 
-impl ProcessRunner for DefaultProcessRunner {
-    fn run(&self, args: ProcessArgs) -> BoxFuture<'_, ProcessResult> {
-        Box::pin(DefaultProcessRunner::execute(args))
+impl SubprocessRunner for DefaultSubprocessRunner {
+    fn run(&self, args: SubprocessArgs) -> BoxFuture<'_, SubprocessResult> {
+        Box::pin(DefaultSubprocessRunner::execute(args))
     }
 }
 
-impl Processor for DefaultProcessRunner {
-    fn process(&self, args: ProcessArgs) -> BoxFuture<'_, ProcessResult> {
-        Box::pin(DefaultProcessRunner::execute(args))
+impl Processor for DefaultSubprocessRunner {
+    fn process(&self, args: SubprocessArgs) -> BoxFuture<'_, SubprocessResult> {
+        Box::pin(DefaultSubprocessRunner::execute(args))
     }
 }
 
@@ -206,10 +208,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_run_empty_argv_returns_denied_with_empty_command() {
-        let runner = DefaultProcessRunner;
-        let args = ProcessArgs::builder().build();
+        let runner = DefaultSubprocessRunner;
+        let args = SubprocessArgs::builder().build();
         let result = runner.run(args).await;
-        let ProcessResult::Denied { command } = result else {
+        let SubprocessResult::Denied { command } = result else {
             panic!("expected Denied, got {result:?}");
         };
         assert!(

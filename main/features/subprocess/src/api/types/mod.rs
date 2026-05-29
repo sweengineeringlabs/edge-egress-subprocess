@@ -1,10 +1,10 @@
 //! Value object types for subprocess execution.
 
-pub mod process;
+pub mod subprocess;
 
-pub use process::ProcessArgs;
-pub use process::ProcessArgsBuilder;
-pub use process::ProcessConfig;
-pub use process::ProcessConfigBuilder;
-pub use process::ProcessResult;
-pub use process::ProcessSvc;
+pub use subprocess::SubprocessArgs;
+pub use subprocess::SubprocessArgsBuilder;
+pub use subprocess::SubprocessConfig;
+pub use subprocess::SubprocessConfigBuilder;
+pub use subprocess::SubprocessResult;
+pub use subprocess::SubprocessSvc;

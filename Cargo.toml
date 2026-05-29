@@ -17,7 +17,7 @@ thiserror = "2"
 tokio     = { version = "1.0" }
 tracing   = { version = "0.1", default-features = false, features = ["std"] }
 
-swe-edge-configbuilder = { git = "ssh://git@github.com/sweengineeringlabs/edge.git", tag = "v0.4.5" }
+swe-edge-configbuilder = { path = "../../configbuilder/main/features/configbuilder" }
 
 [workspace.lints.rust]
 unsafe_code  = "deny"

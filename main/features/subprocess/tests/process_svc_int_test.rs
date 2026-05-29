@@ -1,17 +1,17 @@
-//! Integration tests for swe-edge-egress-process SAF facade.
+//! Integration tests for swe-edge-egress-subprocess SAF facade.
 
 use swe_edge_egress_subprocess::*;
 
-/// @covers: create_swe_edge_egress_subprocess
+/// @covers: SubprocessSvc::service
 #[test]
 fn test_create_swe_edge_egress_subprocess_via_saf_succeeds() {
-    let svc = ProcessSvc::service();
+    let svc = SubprocessSvc::service();
     assert!(svc.execute().is_ok());
 }
 
-/// @covers: create_validator
+/// @covers: SubprocessSvc::validator
 #[test]
 fn test_create_validator_via_saf_succeeds() {
-    let v = ProcessSvc::validator();
+    let v = SubprocessSvc::validator();
     assert!(v.validate().is_ok());
 }

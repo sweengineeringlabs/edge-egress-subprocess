@@ -1,5 +1,5 @@
-//! Default runner interface — types and traits for the default process runner.
+//! Default runner interface — types and traits for the default subprocess runner.
 
 pub mod runner;
 
-pub use runner::{ProcessRunner, Processor};
+pub use runner::{Processor, SubprocessRunner};

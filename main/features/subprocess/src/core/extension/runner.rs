@@ -1,29 +1,29 @@
-//! `ExtensionRunner` — adapts a [`ProcessRunnerExtension`] into [`ProcessRunner`].
+//! `ExtensionRunner` — adapts a [`SubprocessRunnerExtension`] into [`SubprocessRunner`].
 
 use futures::future::BoxFuture;
 
-use crate::api::traits::process_runner::ProcessRunner;
-use crate::api::traits::process_runner_extension::ProcessRunnerExtension;
-use crate::api::types::process::process_args::ProcessArgs;
-use crate::api::types::process::process_result::ProcessResult;
+use crate::api::traits::subprocess::subprocess_runner::SubprocessRunner;
+use crate::api::traits::subprocess::subprocess_runner_extension::SubprocessRunnerExtension;
+use crate::api::types::subprocess::subprocess_args::SubprocessArgs;
+use crate::api::types::subprocess::subprocess_result::SubprocessResult;
 
-/// Bridges a downstream [`ProcessRunnerExtension`] into the [`ProcessRunner`] contract.
+/// Bridges a downstream [`SubprocessRunnerExtension`] into the [`SubprocessRunner`] contract.
 ///
-/// Created by [`ProcessSvc::with_runner`]; callers receive `impl ProcessRunner`
+/// Created by [`SubprocessSvc::with_runner`]; callers receive `impl SubprocessRunner`
 /// and never name this type directly.
-pub(crate) struct ExtensionRunner<E: ProcessRunnerExtension> {
+pub(crate) struct ExtensionRunner<E: SubprocessRunnerExtension> {
     ext: E,
 }
 
-impl<E: ProcessRunnerExtension> ExtensionRunner<E> {
-    /// Wrap `ext` as a [`ProcessRunner`].
+impl<E: SubprocessRunnerExtension> ExtensionRunner<E> {
+    /// Wrap `ext` as a [`SubprocessRunner`].
     pub(crate) fn new(ext: E) -> Self {
         Self { ext }
     }
 }
 
-impl<E: ProcessRunnerExtension> ProcessRunner for ExtensionRunner<E> {
-    fn run(&self, args: ProcessArgs) -> BoxFuture<'_, ProcessResult> {
+impl<E: SubprocessRunnerExtension> SubprocessRunner for ExtensionRunner<E> {
+    fn run(&self, args: SubprocessArgs) -> BoxFuture<'_, SubprocessResult> {
         self.ext.run_extended(args)
     }
 }
@@ -35,25 +35,25 @@ mod tests {
 
     #[derive(Debug)]
     struct ExtensionRunnerStub;
-    impl ProcessRunnerExtension for ExtensionRunnerStub {
-        fn run_extended(&self, args: ProcessArgs) -> BoxFuture<'_, ProcessResult> {
+    impl SubprocessRunnerExtension for ExtensionRunnerStub {
+        fn run_extended(&self, args: SubprocessArgs) -> BoxFuture<'_, SubprocessResult> {
             let cmd = args.argv.first().cloned().unwrap_or_default();
-            Box::pin(async move { ProcessResult::Denied { command: cmd } })
+            Box::pin(async move { SubprocessResult::Denied { command: cmd } })
         }
     }
 
     /// @covers: new
     #[test]
     fn test_extension_runner_new_is_object_safe() {
-        let _: Arc<dyn ProcessRunner> = Arc::new(ExtensionRunner::new(ExtensionRunnerStub));
+        let _: Arc<dyn SubprocessRunner> = Arc::new(ExtensionRunner::new(ExtensionRunnerStub));
     }
 
     /// @covers: run
     #[tokio::test]
     async fn test_extension_runner_delegates_to_ext_run_extended() {
         let runner = ExtensionRunner::new(ExtensionRunnerStub);
-        let args = ProcessArgs::builder().argv(vec!["echo".into()]).build();
+        let args = SubprocessArgs::builder().argv(vec!["echo".into()]).build();
         let result = runner.run(args).await;
-        assert!(matches!(result, ProcessResult::Denied { .. }));
+        assert!(matches!(result, SubprocessResult::Denied { .. }));
     }
 }

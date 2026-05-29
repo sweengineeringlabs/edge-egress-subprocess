@@ -1,11 +1,11 @@
-//! Integration tests for ProcessResult.
+//! Integration tests for SubprocessResult.
 
-use swe_edge_egress_subprocess::ProcessResult;
+use swe_edge_egress_subprocess::SubprocessResult;
 
-/// @covers: ProcessResult::Completed
+/// @covers: SubprocessResult::Completed
 #[test]
-fn test_process_result_completed_is_debuggable() {
-    let r = ProcessResult::Completed {
+fn test_subprocess_result_completed_is_debuggable() {
+    let r = SubprocessResult::Completed {
         exit_code: 0,
         stdout: "ok".into(),
         stderr: String::new(),
@@ -13,19 +13,19 @@ fn test_process_result_completed_is_debuggable() {
     let _ = format!("{r:?}");
 }
 
-/// @covers: ProcessResult::Denied
+/// @covers: SubprocessResult::Denied
 #[test]
-fn test_process_result_denied_is_debuggable() {
-    let r = ProcessResult::Denied {
+fn test_subprocess_result_denied_is_debuggable() {
+    let r = SubprocessResult::Denied {
         command: "echo".into(),
     };
     let _ = format!("{r:?}");
 }
 
-/// @covers: ProcessResult::IsolationFailed
+/// @covers: SubprocessResult::IsolationFailed
 #[test]
-fn test_process_result_isolation_failed_is_debuggable() {
-    let r = ProcessResult::IsolationFailed {
+fn test_subprocess_result_isolation_failed_is_debuggable() {
+    let r = SubprocessResult::IsolationFailed {
         profile: "noop".into(),
         reason: "test".into(),
     };

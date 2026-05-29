@@ -1,26 +1,26 @@
-//! Integration tests for `ProcessConfig`.
+//! Integration tests for `SubprocessConfig`.
 
 use std::collections::HashMap;
 
 use swe_edge_configbuilder::ConfigSection as _;
-use swe_edge_egress_subprocess::ProcessConfig;
+use swe_edge_egress_subprocess::SubprocessConfig;
 
-/// @covers: ProcessConfig::default
+/// @covers: SubprocessConfig::default
 #[test]
-fn test_process_config_default_allow_commands_empty() {
-    assert!(ProcessConfig::default().allow_commands.is_empty());
+fn test_subprocess_config_default_allow_commands_empty() {
+    assert!(SubprocessConfig::default().allow_commands.is_empty());
 }
 
-/// @covers: ProcessConfig::section_name
+/// @covers: SubprocessConfig::section_name
 #[test]
-fn test_process_config_section_name_is_process() {
-    assert_eq!(ProcessConfig::section_name(), "process");
+fn test_subprocess_config_section_name_is_subprocess() {
+    assert_eq!(SubprocessConfig::section_name(), "subprocess");
 }
 
 /// @covers: with_argv
 #[test]
 fn test_with_argv_sets_argv_and_propagates_policy() {
-    let cfg = ProcessConfig {
+    let cfg = SubprocessConfig {
         allow_commands: vec!["ffmpeg".into()],
         timeout_ms: 5_000,
         output_bytes_cap: 512,
@@ -38,8 +38,8 @@ fn test_with_argv_sets_argv_and_propagates_policy() {
 
 /// @covers: with_argv
 #[test]
-fn test_process_config_default_cpu_and_memory_are_none() {
-    let cfg = ProcessConfig::default();
+fn test_subprocess_config_default_cpu_and_memory_are_none() {
+    let cfg = SubprocessConfig::default();
     assert!(cfg.cpu_time_ms.is_none());
     assert!(cfg.memory_bytes.is_none());
 }
@@ -47,7 +47,7 @@ fn test_process_config_default_cpu_and_memory_are_none() {
 /// @covers: with_argv
 #[test]
 fn test_with_argv_propagates_cpu_and_memory_limits() {
-    let cfg = ProcessConfig {
+    let cfg = SubprocessConfig {
         allow_commands: vec!["sh".into()],
         timeout_ms: 5_000,
         output_bytes_cap: 1_024,
@@ -64,7 +64,7 @@ fn test_with_argv_propagates_cpu_and_memory_limits() {
 /// @covers: with_argv
 #[test]
 fn test_with_argv_empty_allow_commands_blocks_all() {
-    let cfg = ProcessConfig::default();
+    let cfg = SubprocessConfig::default();
     let args = cfg.with_argv(vec!["echo".into()]);
     assert!(args.allow_commands.is_empty());
 }

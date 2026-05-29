@@ -1,11 +1,11 @@
-//! `ProcessResult` — outcome of a single subprocess invocation.
+//! `SubprocessResult` — outcome of a single subprocess invocation.
 
 /// Outcome of a single subprocess invocation.
 ///
 /// Never `Err` — all failure modes are represented as variants so callers can
 /// match exhaustively without `?`.
 #[derive(Debug)]
-pub enum ProcessResult {
+pub enum SubprocessResult {
     /// The process exited within the deadline.
     Completed {
         /// OS exit code.  `-1` when the process was terminated by a signal.

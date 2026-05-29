@@ -1,4 +1,4 @@
 //! Allow-list module.
 
-pub(crate) mod list;
-pub(crate) use list::List;
+pub(crate) mod normalised_command;
+pub(crate) use normalised_command::NormalisedCommand;
