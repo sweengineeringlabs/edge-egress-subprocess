@@ -8,6 +8,7 @@ pub use crate::api::{
     SweEdgeEgressProcess, Validator,
 };
 use crate::core::default::DefaultProcessRunner;
+use crate::core::extension::ExtensionRunner;
 use crate::core::swe::default::{DefaultProcessValidator, DefaultSweEdgeEgressProcess};
 pub use crate::spi::ProcessRunnerExtension;
 pub use futures::future::BoxFuture;
@@ -60,5 +61,35 @@ impl ProcessSvc {
     /// Return the default [`Validator`] implementation.
     pub fn validator() -> impl Validator {
         DefaultProcessValidator
+    }
+
+    /// Wrap a [`ProcessRunnerExtension`] as a [`ProcessRunner`].
+    ///
+    /// Downstream consumers implement [`ProcessRunnerExtension`] to plug in
+    /// custom subprocess execution (e.g. sandbox integration, remote execution).
+    /// This method is the only entry point into the extension stack — callers
+    /// receive `impl ProcessRunner` and never name the adapter type.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// use futures::future::BoxFuture;
+    /// use swe_edge_egress_subprocess::{
+    ///     ProcessArgs, ProcessResult, ProcessRunnerExtension, ProcessSvc, ProcessRunner,
+    /// };
+    ///
+    /// #[derive(Debug)]
+    /// struct SandboxRunner;
+    /// impl ProcessRunnerExtension for SandboxRunner {
+    ///     fn run_extended(&self, args: ProcessArgs) -> BoxFuture<'_, ProcessResult> {
+    ///         Box::pin(async move { ProcessResult::Denied { command: "sandbox".into() } })
+    ///     }
+    /// }
+    ///
+    /// let runner = ProcessSvc::with_runner(SandboxRunner);
+    /// // runner: impl ProcessRunner — use exactly like the default runner
+    /// ```
+    pub fn with_runner(ext: impl ProcessRunnerExtension) -> impl ProcessRunner {
+        ExtensionRunner::new(ext)
     }
 }

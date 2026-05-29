@@ -3,6 +3,7 @@
 pub mod allow;
 pub mod default;
 pub mod error;
+pub mod extension;
 pub mod swe;
 pub mod traits;
 pub mod types;
