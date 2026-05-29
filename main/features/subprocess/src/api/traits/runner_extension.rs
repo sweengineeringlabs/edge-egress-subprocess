@@ -2,8 +2,8 @@
 
 use futures::future::BoxFuture;
 
-use crate::api::types::process::args::ProcessArgs;
-use crate::api::types::process::outcome::ProcessResult;
+use crate::api::types::process::process_args::ProcessArgs;
+use crate::api::types::process::process_result::ProcessResult;
 
 /// Extension point for downstream implementors of subprocess execution.
 ///

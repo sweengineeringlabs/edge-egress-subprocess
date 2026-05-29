@@ -1,15 +1,15 @@
 //! Subprocess process types — args, config, result, and factory.
 
-pub mod args;
-pub mod args_builder;
-pub mod config;
-pub mod config_builder;
-pub mod outcome;
-pub mod svc;
+pub mod process_args;
+pub mod process_args_builder;
+pub mod process_config;
+pub mod process_config_builder;
+pub mod process_result;
+pub mod process_svc;
 
-pub use args::ProcessArgs;
-pub use args_builder::ProcessArgsBuilder;
-pub use config::ProcessConfig;
-pub use config_builder::ProcessConfigBuilder;
-pub use outcome::ProcessResult;
-pub use svc::ProcessSvc;
+pub use process_args::ProcessArgs;
+pub use process_args_builder::ProcessArgsBuilder;
+pub use process_config::ProcessConfig;
+pub use process_config_builder::ProcessConfigBuilder;
+pub use process_result::ProcessResult;
+pub use process_svc::ProcessSvc;

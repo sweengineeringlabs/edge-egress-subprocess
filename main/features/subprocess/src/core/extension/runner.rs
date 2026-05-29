@@ -2,10 +2,10 @@
 
 use futures::future::BoxFuture;
 
-use crate::api::traits::runner::ProcessRunner;
-use crate::api::traits::runner_extension::ProcessRunnerExtension;
-use crate::api::types::process::args::ProcessArgs;
-use crate::api::types::process::outcome::ProcessResult;
+use crate::api::traits::process_runner::ProcessRunner;
+use crate::api::traits::process_runner_extension::ProcessRunnerExtension;
+use crate::api::types::process::process_args::ProcessArgs;
+use crate::api::types::process::process_result::ProcessResult;
 
 /// Bridges a downstream [`ProcessRunnerExtension`] into the [`ProcessRunner`] contract.
 ///

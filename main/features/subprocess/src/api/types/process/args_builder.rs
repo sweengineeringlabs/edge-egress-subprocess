@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 use crate::api::traits::isolation_profile::IsolationProfile;
-use crate::api::types::process::args::ProcessArgs;
+use crate::api::types::process::process_args::ProcessArgs;
 
 /// Builder for [`ProcessArgs`].
 #[derive(Debug, Default)]

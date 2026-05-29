@@ -12,9 +12,9 @@ use tokio::process::Command;
 use tracing::{debug, warn};
 
 use crate::api::traits::processor::Processor;
-use crate::api::traits::runner::ProcessRunner;
-use crate::api::types::process::args::{ProcessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS};
-use crate::api::types::process::outcome::ProcessResult;
+use crate::api::traits::process_runner::ProcessRunner;
+use crate::api::types::process::process_args::{ProcessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS};
+use crate::api::types::process::process_result::ProcessResult;
 use crate::core::allow::List;
 
 /// Default implementation of [`ProcessRunner`] and [`Processor`].

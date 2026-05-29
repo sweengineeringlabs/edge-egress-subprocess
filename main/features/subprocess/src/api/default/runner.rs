@@ -4,4 +4,4 @@
 //! `DefaultProcessRunner` implements.
 
 pub use crate::api::traits::processor::Processor;
-pub use crate::api::traits::runner::ProcessRunner;
+pub use crate::api::traits::process_runner::ProcessRunner;

@@ -3,7 +3,7 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use crate::api::types::process::config::ProcessConfig;
+use crate::api::types::process::process_config::ProcessConfig;
 
 /// Fluent builder for [`ProcessConfig`].
 #[derive(Debug, Default)]

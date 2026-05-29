@@ -1,5 +1,5 @@
 //! Allow-list interface — types and traits for command permission checking.
 
-pub mod list;
+pub mod normalised_command;
 
-pub use list::NormalisedCommand;
+pub use normalised_command::NormalisedCommand;

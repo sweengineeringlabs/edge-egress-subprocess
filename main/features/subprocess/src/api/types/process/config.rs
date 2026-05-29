@@ -5,7 +5,7 @@ use std::path::PathBuf;
 
 use swe_edge_configbuilder::ConfigSection;
 
-use crate::api::types::process::args::{ProcessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS};
+use crate::api::types::process::process_args::{ProcessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS};
 
 /// Static subprocess policy loaded from the `[process]` TOML section.
 ///

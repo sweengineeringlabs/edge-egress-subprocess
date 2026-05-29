@@ -68,7 +68,7 @@ pub struct ProcessArgs {
 
 impl ProcessArgs {
     /// Returns a builder pre-seeded with empty/default values.
-    pub fn builder() -> crate::api::types::process::args_builder::ProcessArgsBuilder {
-        crate::api::types::process::args_builder::ProcessArgsBuilder::default()
+    pub fn builder() -> crate::api::types::process::process_args_builder::ProcessArgsBuilder {
+        crate::api::types::process::process_args_builder::ProcessArgsBuilder::default()
     }
 }
