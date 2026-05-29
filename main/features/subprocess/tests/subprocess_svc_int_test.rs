@@ -1,7 +1,9 @@
 //! Integration tests for SubprocessSvc — the SAF-layer factory.
 
 use std::sync::Arc;
-use swe_edge_egress_subprocess::{SubprocessRunner, SubprocessSvc, SweEdgeEgressProcess, Validator};
+use swe_edge_egress_subprocess::{
+    SubprocessRunner, SubprocessSvc, SweEdgeEgressProcess, Validator,
+};
 
 /// @covers: SubprocessSvc::runner
 #[test]
