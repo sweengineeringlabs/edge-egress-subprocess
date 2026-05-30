@@ -1,6 +1,6 @@
 //! Integration tests for application_config_builder.
 
-use swe_edge_configbuilder::{ConfigBuilder as _, ConfigLoaderFactory};
+use swe_edge_configbuilder::ConfigLoaderFactory;
 
 /// @covers: ApplicationConfigBuilder
 #[test]
