@@ -1,9 +1,14 @@
-//! Extension hooks for downstream consumers of subprocess execution.
+//! SPI — service-provider interface extension hooks for downstream consumers.
 //!
-//! Implement [`SubprocessRunnerExtension`] to provide custom subprocess execution
-//! semantics (e.g. sandbox integration, remote execution, audit logging).
-//! Wire your implementation into the stack via [`SubprocessSvc::with_runner`].
+//! The presence of this directory signals that `saf/` factory functions
+//! may return `impl Trait` for downstream polymorphism (SEA Rule 195).
+//!
+//! Downstream crates implementing custom subprocess runners should implement
+//! [`SubprocessRunnerExtension`] and register them via [`SubprocessSvc::with_runner`].
 //!
 //! [`SubprocessSvc::with_runner`]: crate::SubprocessSvc::with_runner
+
+pub(crate) mod subprocess;
+pub(crate) use subprocess::SubprocessExtension;
 
 pub use crate::api::traits::subprocess::subprocess_runner_extension::SubprocessRunnerExtension;

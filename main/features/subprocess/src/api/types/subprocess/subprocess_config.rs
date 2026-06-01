@@ -83,6 +83,7 @@ impl Default for SubprocessConfig {
 
 impl ConfigSection for SubprocessConfig {
     fn section_name() -> &'static str {
+        // @allow: no_stub_fn_bodies
         "subprocess"
     }
 }

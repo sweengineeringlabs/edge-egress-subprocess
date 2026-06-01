@@ -1,14 +1,9 @@
 //! SAF — `SubprocessSvc` factory wiring for subprocess execution.
 
-pub use crate::api::{
-    AllowList, Error, IsolationError, IsolationProfile, Processor, SubprocessArgs,
-    SubprocessArgsBuilder, SubprocessConfig, SubprocessConfigBuilder, SubprocessResult,
-    SubprocessRunner, SubprocessRunnerExtension, SubprocessSvc, SweEdgeEgressProcess, Validator,
-};
+use crate::api::types::subprocess::subprocess_svc::SubprocessSvc;
 use crate::core::default::DefaultSubprocessRunner;
 use crate::core::extension::ExtensionRunner;
 use crate::core::swe::default::{DefaultProcessValidator, DefaultSweEdgeEgressProcess};
-pub use futures::future::BoxFuture;
 
 impl SubprocessSvc {
     /// Return a [`SubprocessRunner`] backed by `tokio::process::Command`.
@@ -36,17 +31,17 @@ impl SubprocessSvc {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn runner() -> impl SubprocessRunner {
+    pub fn runner() -> impl crate::api::traits::subprocess::subprocess_runner::SubprocessRunner {
         DefaultSubprocessRunner
     }
 
     /// Return the default [`SweEdgeEgressProcess`] implementation.
-    pub fn service() -> impl SweEdgeEgressProcess {
+    pub fn service() -> impl crate::api::traits::swe_edge_egress_process::SweEdgeEgressProcess {
         DefaultSweEdgeEgressProcess
     }
 
     /// Return the default [`Validator`] implementation.
-    pub fn validator() -> impl Validator {
+    pub fn validator() -> impl crate::api::traits::validator::Validator {
         DefaultProcessValidator
     }
 
@@ -76,7 +71,9 @@ impl SubprocessSvc {
     /// let runner = SubprocessSvc::with_runner(SandboxRunner);
     /// // runner: impl SubprocessRunner — use exactly like the default runner
     /// ```
-    pub fn with_runner(ext: impl SubprocessRunnerExtension) -> impl SubprocessRunner {
+    pub fn with_runner(
+        ext: impl crate::api::traits::subprocess::subprocess_runner_extension::SubprocessRunnerExtension,
+    ) -> impl crate::api::traits::subprocess::subprocess_runner::SubprocessRunner {
         ExtensionRunner::new(ext)
     }
 }

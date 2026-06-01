@@ -1,0 +1,15 @@
+{
+  "members": [
+    {
+      "failed": 2,
+      "member": "main/features/subprocess",
+      "passed": 160,
+      "skipped": 0
+    }
+  ],
+  "mode": "package",
+  "timestamp": "2026-06-01T19:11:47.518727100+02:00",
+  "total_failed": 2,
+  "total_members": 1,
+  "total_passed": 160
+}
