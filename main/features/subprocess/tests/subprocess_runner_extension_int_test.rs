@@ -1,7 +1,6 @@
 //! Integration tests for SubprocessRunnerExtension.
 
 use futures::future::BoxFuture;
-use std::sync::Arc;
 use swe_edge_egress_subprocess::{
     SubprocessArgs, SubprocessResult, SubprocessRunner, SubprocessRunnerExtension, SubprocessSvc,
 };

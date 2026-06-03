@@ -31,17 +31,26 @@ impl SubprocessSvc {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn runner() -> impl crate::api::traits::subprocess::subprocess_runner::SubprocessRunner {
+    pub fn runner() -> impl crate::api::default::subprocess_runner::SubprocessRunner {
         DefaultSubprocessRunner
     }
 
     /// Return the default [`SweEdgeEgressProcess`] implementation.
-    pub fn service() -> impl crate::api::traits::swe_edge_egress_process::SweEdgeEgressProcess {
+    pub fn service() -> impl crate::api::swe::default::swe_edge_egress_process::SweEdgeEgressProcess
+    {
         DefaultSweEdgeEgressProcess
     }
 
+    /// Return a config builder pre-seeded with this crate's package name and version.
+    pub fn config_builder() -> crate::api::swe::application_config_builder::ApplicationConfigBuilder
+    {
+        swe_edge_configbuilder::ConfigLoaderFactory::create_config_builder()
+            .with_name(env!("CARGO_PKG_NAME"))
+            .with_version(env!("CARGO_PKG_VERSION"))
+    }
+
     /// Return the default [`Validator`] implementation.
-    pub fn validator() -> impl crate::api::traits::validator::Validator {
+    pub fn validator() -> impl crate::api::swe::default::validator::Validator {
         DefaultProcessValidator
     }
 
@@ -72,8 +81,8 @@ impl SubprocessSvc {
     /// // runner: impl SubprocessRunner — use exactly like the default runner
     /// ```
     pub fn with_runner(
-        ext: impl crate::api::traits::subprocess::subprocess_runner_extension::SubprocessRunnerExtension,
-    ) -> impl crate::api::traits::subprocess::subprocess_runner::SubprocessRunner {
+        ext: impl crate::api::extension::runner::SubprocessRunnerExtension,
+    ) -> impl crate::api::extension::runner::SubprocessRunner {
         ExtensionRunner::new(ext)
     }
 }

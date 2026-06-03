@@ -62,18 +62,15 @@ impl SubprocessConfigBuilder {
 
     /// Consume the builder and return a [`SubprocessConfig`].
     pub fn build(self) -> SubprocessConfig {
-        let mut cfg = SubprocessConfig::default();
-        cfg.allow_commands = self.allow_commands;
-        if let Some(v) = self.timeout_ms {
-            cfg.timeout_ms = v;
+        let defaults = SubprocessConfig::default();
+        SubprocessConfig {
+            allow_commands: self.allow_commands,
+            timeout_ms: self.timeout_ms.unwrap_or(defaults.timeout_ms),
+            output_bytes_cap: self.output_bytes_cap.unwrap_or(defaults.output_bytes_cap),
+            cwd: self.cwd,
+            env: self.env,
+            cpu_time_ms: self.cpu_time_ms,
+            memory_bytes: self.memory_bytes,
         }
-        if let Some(v) = self.output_bytes_cap {
-            cfg.output_bytes_cap = v;
-        }
-        cfg.cwd = self.cwd;
-        cfg.env = self.env;
-        cfg.cpu_time_ms = self.cpu_time_ms;
-        cfg.memory_bytes = self.memory_bytes;
-        cfg
     }
 }

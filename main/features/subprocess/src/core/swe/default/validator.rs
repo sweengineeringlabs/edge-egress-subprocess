@@ -26,6 +26,6 @@ mod tests {
 
     #[test]
     fn test_default_creates_process_validator() {
-        let _v = DefaultProcessValidator::default();
+        let _v = DefaultProcessValidator;
     }
 }

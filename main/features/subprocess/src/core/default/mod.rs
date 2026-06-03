@@ -1,4 +1,4 @@
 //! Default implementations for subprocess execution.
 
-pub(crate) mod runner;
-pub(crate) use runner::DefaultSubprocessRunner;
+pub(crate) mod subprocess_runner;
+pub(crate) use subprocess_runner::DefaultSubprocessRunner;
