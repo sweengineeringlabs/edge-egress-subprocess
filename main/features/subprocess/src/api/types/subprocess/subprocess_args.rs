@@ -15,7 +15,26 @@ pub(crate) const DEFAULT_TIMEOUT_MS: u64 = 30_000;
 /// All inputs to a single subprocess invocation.
 ///
 /// Built with [`SubprocessArgs::builder()`].  All fields have safe defaults;
-/// callers override only what they need.
+/// callers override only what they need. The child never inherits the parent
+/// environment — callers must explicitly copy any env vars they need, which
+/// prevents accidental credential leakage.
+///
+/// # Examples
+///
+/// ```rust
+/// use swe_edge_egress_subprocess::SubprocessArgs;
+///
+/// let args = SubprocessArgs::builder()
+///     .argv(vec!["echo".into(), "hello".into()])
+///     .allow_commands(vec!["echo".into()])
+///     .timeout_ms(5_000)
+///     .build();
+///
+/// assert_eq!(args.argv, vec!["echo", "hello"]);
+/// assert_eq!(args.allow_commands, vec!["echo"]);
+/// assert_eq!(args.timeout_ms, Some(5_000));
+/// assert!(args.env.is_empty()); // no inherited environment
+/// ```
 #[derive(Debug, Clone)]
 pub struct SubprocessArgs {
     /// Command + arguments.  `argv[0]` is the binary basename or absolute path.
@@ -68,6 +87,17 @@ pub struct SubprocessArgs {
 
 impl SubprocessArgs {
     /// Returns a builder pre-seeded with empty/default values.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use swe_edge_egress_subprocess::SubprocessArgs;
+    /// let args = SubprocessArgs::builder()
+    ///     .argv(vec!["ls".into()])
+    ///     .allow_commands(vec!["ls".into()])
+    ///     .build();
+    /// assert!(!args.argv.is_empty());
+    /// ```
     pub fn builder() -> crate::api::types::subprocess::subprocess_args_builder::SubprocessArgsBuilder
     {
         crate::api::types::subprocess::subprocess_args_builder::SubprocessArgsBuilder::default()

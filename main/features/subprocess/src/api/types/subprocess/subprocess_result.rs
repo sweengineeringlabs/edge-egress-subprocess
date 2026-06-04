@@ -3,7 +3,44 @@
 /// Outcome of a single subprocess invocation.
 ///
 /// Never `Err` — all failure modes are represented as variants so callers can
-/// match exhaustively without `?`.
+/// match exhaustively without `?`. The `SubprocessRunner::run` future always
+/// resolves to one of these variants; it never panics.
+///
+/// # Examples
+///
+/// ```rust
+/// use swe_edge_egress_subprocess::SubprocessResult;
+///
+/// fn handle(result: SubprocessResult) -> String {
+///     match result {
+///         SubprocessResult::Completed { exit_code, stdout, stderr } => {
+///             format!("exit={exit_code} out={stdout} err={stderr}")
+///         }
+///         SubprocessResult::Denied { command } => {
+///             format!("command '{}' is not in the allow-list", command)
+///         }
+///         SubprocessResult::TimedOut { timeout_ms } => {
+///             format!("killed after {}ms", timeout_ms)
+///         }
+///         SubprocessResult::SpawnFailed { reason } => {
+///             format!("OS error: {}", reason)
+///         }
+///         SubprocessResult::IsolationFailed { profile, reason } => {
+///             format!("isolation '{}' failed: {}", profile, reason)
+///         }
+///     }
+/// }
+///
+/// let msg = handle(SubprocessResult::Completed {
+///     exit_code: 0,
+///     stdout: "hello\n".to_string(),
+///     stderr: String::new(),
+/// });
+/// assert!(msg.contains("exit=0"));
+///
+/// let msg = handle(SubprocessResult::Denied { command: "rm".to_string() });
+/// assert!(msg.contains("rm"));
+/// ```
 #[derive(Debug)]
 pub enum SubprocessResult {
     /// The process exited within the deadline.

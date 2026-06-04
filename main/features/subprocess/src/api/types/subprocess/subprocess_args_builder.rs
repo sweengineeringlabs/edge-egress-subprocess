@@ -8,6 +8,28 @@ use crate::api::traits::isolation_profile::IsolationProfile;
 use crate::api::types::subprocess::subprocess_args::SubprocessArgs;
 
 /// Builder for [`SubprocessArgs`].
+///
+/// Obtain via [`SubprocessArgs::builder()`]. All fields default to safe values;
+/// call only the setters you need before calling [`build`](Self::build).
+///
+/// # Examples
+///
+/// ```rust
+/// use swe_edge_egress_subprocess::SubprocessArgs;
+///
+/// let args = SubprocessArgs::builder()
+///     .argv(vec!["grep".into(), "-r".into(), "TODO".into(), "src/".into()])
+///     .allow_commands(vec!["grep".into()])
+///     .timeout_ms(10_000)
+///     .output_bytes_cap(65_536)
+///     .build();
+///
+/// assert_eq!(&args.argv[0], "grep");
+/// assert_eq!(args.timeout_ms, Some(10_000));
+/// assert_eq!(args.output_bytes_cap, Some(65_536));
+/// assert!(args.cwd.is_none());
+/// assert!(args.isolation_profile.is_none());
+/// ```
 #[derive(Debug, Default)]
 pub struct SubprocessArgsBuilder {
     argv: Vec<String>,
@@ -77,6 +99,17 @@ impl SubprocessArgsBuilder {
     }
 
     /// Consume the builder and return a [`SubprocessArgs`].
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use swe_edge_egress_subprocess::SubprocessArgs;
+    /// let args = SubprocessArgs::builder()
+    ///     .argv(vec!["echo".into(), "ok".into()])
+    ///     .allow_commands(vec!["echo".into()])
+    ///     .build();
+    /// assert_eq!(args.argv.len(), 2);
+    /// ```
     pub fn build(self) -> SubprocessArgs {
         SubprocessArgs {
             argv: self.argv,
