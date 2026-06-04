@@ -50,6 +50,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(windows)]
     fn test_normalise_absolute_windows_path_strips_prefix() {
         let result = NormalisedCommand::normalise("C:\\Windows\\System32\\cmd.exe");
         assert!(result == "cmd.exe" || result == "cmd");
