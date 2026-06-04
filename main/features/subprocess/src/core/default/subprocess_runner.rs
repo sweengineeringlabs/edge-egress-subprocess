@@ -170,7 +170,7 @@ impl DefaultSubprocessRunner {
         unsafe {
             cmd.as_std_mut().pre_exec(move || {
                 if let Some(ms) = cpu_time_ms.filter(|&v| v > 0) {
-                    let secs = (ms + 999) / 1_000; // ceiling division
+                    let secs = ms.div_ceil(1_000);
                     let _ = nix::sys::resource::setrlimit(
                         nix::sys::resource::Resource::RLIMIT_CPU,
                         secs,
