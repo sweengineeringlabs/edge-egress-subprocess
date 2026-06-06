@@ -1,11 +1,11 @@
 [package]
 name         = "swe-edge-egress-subprocess"
-version.workspace      = true
-edition.workspace      = true
-license.workspace      = true
-rust-version.workspace = true
-authors.workspace      = true
-repository.workspace   = true
+version      = "0.1.0"
+edition      = "2021"
+license      = "MIT OR Apache-2.0"
+rust-version = "1.95"
+authors      = ["SWE Engineering Labs"]
+repository   = "https://github.com/sweengineeringlabs/edge"
 description  = "edge — egress subprocess execution: ProcessRunner trait and DefaultProcessRunner."
 keywords     = ["process", "subprocess", "egress", "sea", "swe"]
 categories   = ["os"]
@@ -15,7 +15,7 @@ application_type = "lib"
 service_type     = "processor"
 
 [lib]
-path = "src/lib.rs"
+path = "main/src/lib.rs"
 
 [[test]]
 name = "allow_list_int_test"
@@ -150,16 +150,16 @@ unwrap_used = "deny"
 expect_used = "deny"
 
 [dependencies]
-futures.workspace                = true
-serde.workspace                  = true
-thiserror.workspace              = true
-tokio                            = { workspace = true, features = ["process", "time", "io-util", "macros"] }
-tracing.workspace                = true
-swe-edge-configbuilder.workspace = true
+futures   = "0.3"
+serde     = { version = "1.0", features = ["derive"] }
+thiserror = "2"
+tokio     = { version = "1.0", features = ["process", "time", "io-util", "macros"] }
+tracing   = { version = "0.1", default-features = false, features = ["std"] }
+swe-edge-configbuilder = { git = "https://github.com/sweengineeringlabs/edge-configbuilder.git", tag = "v0.1.0" }
 
 [target.'cfg(unix)'.dependencies]
 nix = { version = "0.27", features = ["resource"] }
 
 [dev-dependencies]
-tokio                            = { workspace = true, features = ["macros", "rt-multi-thread"] }
-swe-edge-configbuilder.workspace = true
+tokio                  = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+swe-edge-configbuilder = { git = "https://github.com/sweengineeringlabs/edge-configbuilder.git", tag = "v0.1.0" }
