@@ -1,19 +1,17 @@
 //! Public API — traits, types, and errors for subprocess execution.
 
-pub mod allow;
-pub mod default;
 pub mod error;
-pub mod extension;
-pub mod swe;
 pub mod traits;
 pub mod types;
+pub mod vo;
 
 pub use error::{Error, IsolationError};
 pub use traits::{
     AllowList, IsolationProfile, Processor, SubprocessRunner, SubprocessRunnerExtension,
     SweEdgeEgressProcess, Validator,
 };
-pub use types::{
+pub use types::SubprocessSvc;
+pub use vo::{
     SubprocessArgs, SubprocessArgsBuilder, SubprocessConfig, SubprocessConfigBuilder,
-    SubprocessResult, SubprocessSvc,
+    SubprocessResult,
 };

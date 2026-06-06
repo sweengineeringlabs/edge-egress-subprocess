@@ -98,8 +98,7 @@ impl SubprocessArgs {
     ///     .build();
     /// assert!(!args.argv.is_empty());
     /// ```
-    pub fn builder() -> crate::api::types::subprocess::subprocess_args_builder::SubprocessArgsBuilder
-    {
-        crate::api::types::subprocess::subprocess_args_builder::SubprocessArgsBuilder::default()
+    pub fn builder() -> crate::api::vo::subprocess_args_builder::SubprocessArgsBuilder {
+        crate::api::vo::subprocess_args_builder::SubprocessArgsBuilder::default()
     }
 }

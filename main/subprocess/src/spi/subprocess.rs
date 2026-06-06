@@ -2,7 +2,7 @@
 
 /// Marker extension point for downstream crates that provide custom subprocess execution.
 ///
-/// Implement [`SubprocessRunnerExtension`](crate::api::traits::subprocess::subprocess_runner_extension::SubprocessRunnerExtension)
+/// Implement [`SubprocessRunnerExtension`](crate::api::traits::subprocess_runner_extension::SubprocessRunnerExtension)
 /// on a zero-size struct to register a custom runner with the
 /// `swe-edge-egress-subprocess` SPI surface via [`SubprocessSvc::with_runner`].
 ///

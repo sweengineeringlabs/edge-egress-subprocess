@@ -2,8 +2,8 @@
 
 use futures::future::BoxFuture;
 
-use crate::api::types::subprocess::subprocess_args::SubprocessArgs;
-use crate::api::types::subprocess::subprocess_result::SubprocessResult;
+use crate::api::vo::subprocess_args::SubprocessArgs;
+use crate::api::vo::subprocess_result::SubprocessResult;
 
 /// Primary trait for the `processor` service type.
 ///

@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 use crate::api::traits::isolation_profile::IsolationProfile;
-use crate::api::types::subprocess::subprocess_args::SubprocessArgs;
+use crate::api::vo::subprocess_args::SubprocessArgs;
 
 /// Builder for [`SubprocessArgs`].
 ///

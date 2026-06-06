@@ -2,10 +2,10 @@
 
 use futures::future::BoxFuture;
 
-use crate::api::traits::subprocess::subprocess_runner::SubprocessRunner;
-use crate::api::traits::subprocess::subprocess_runner_extension::SubprocessRunnerExtension;
-use crate::api::types::subprocess::subprocess_args::SubprocessArgs;
-use crate::api::types::subprocess::subprocess_result::SubprocessResult;
+use crate::api::traits::subprocess_runner::SubprocessRunner;
+use crate::api::traits::subprocess_runner_extension::SubprocessRunnerExtension;
+use crate::api::vo::subprocess_args::SubprocessArgs;
+use crate::api::vo::subprocess_result::SubprocessResult;
 
 /// Bridges a downstream [`SubprocessRunnerExtension`] into the [`SubprocessRunner`] contract.
 ///

@@ -1,10 +1,7 @@
-//! Value object types for subprocess execution.
+//! Types — factory type and config-builder/normalisation aliases.
 
-pub mod subprocess;
+pub mod application_config_builder;
+pub mod normalised_command;
+pub mod subprocess_svc;
 
-pub use subprocess::SubprocessArgs;
-pub use subprocess::SubprocessArgsBuilder;
-pub use subprocess::SubprocessConfig;
-pub use subprocess::SubprocessConfigBuilder;
-pub use subprocess::SubprocessResult;
-pub use subprocess::SubprocessSvc;
+pub use subprocess_svc::SubprocessSvc;

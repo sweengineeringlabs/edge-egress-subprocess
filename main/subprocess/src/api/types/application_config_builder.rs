@@ -1,6 +1,6 @@
 //! `ApplicationConfigBuilder` — the api-level config builder contract.
 //!
-//! Counterpart for `core::swe::application_config_builder::ApplicationConfigBuilder`.
+//! Counterpart for `core::application_config_builder::ApplicationConfigBuilder`.
 
 /// Application-level config builder — a type alias for the configbuilder's
 /// concrete builder type. Returned by [`SubprocessSvc::config_builder`].
