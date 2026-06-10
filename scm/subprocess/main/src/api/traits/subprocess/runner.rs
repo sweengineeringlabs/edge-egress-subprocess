@@ -2,8 +2,8 @@
 
 use futures::future::BoxFuture;
 
-use crate::api::vo::subprocess_args::SubprocessArgs;
-use crate::api::vo::subprocess_result::SubprocessResult;
+use crate::api::types::subprocess::args::SubprocessArgs;
+use crate::api::types::subprocess::result::SubprocessResult;
 
 /// Outbound subprocess execution — the subprocess analogue of `GrpcEgressClient`.
 ///

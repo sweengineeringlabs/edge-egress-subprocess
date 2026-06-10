@@ -5,7 +5,7 @@ use std::path::PathBuf;
 
 use swe_edge_configbuilder::ConfigSection;
 
-use crate::api::vo::subprocess_args::{
+use crate::api::types::subprocess::args::{
     SubprocessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS,
 };
 

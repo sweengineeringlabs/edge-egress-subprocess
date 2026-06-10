@@ -12,12 +12,12 @@ use tokio::process::Command;
 use tracing::{debug, warn};
 
 use crate::api::traits::processor::Processor;
-use crate::api::traits::subprocess_runner::SubprocessRunner;
-use crate::api::vo::subprocess_args::{
+use crate::api::traits::subprocess::runner::SubprocessRunner;
+use crate::api::types::subprocess::args::{
     SubprocessArgs, DEFAULT_OUTPUT_BYTES_CAP, DEFAULT_TIMEOUT_MS,
 };
-use crate::api::vo::subprocess_result::SubprocessResult;
-use crate::core::normalised_command::NormalisedCommand;
+use crate::api::types::subprocess::result::SubprocessResult;
+use crate::core::command::normalised_command::NormalisedCommand;
 
 /// Default implementation of [`SubprocessRunner`] and [`Processor`].
 pub(crate) struct DefaultSubprocessRunner;

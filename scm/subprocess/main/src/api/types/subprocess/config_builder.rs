@@ -3,7 +3,7 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use crate::api::vo::subprocess_config::SubprocessConfig;
+use crate::api::types::subprocess::config::SubprocessConfig;
 
 /// Fluent builder for [`SubprocessConfig`].
 #[derive(Debug, Default)]

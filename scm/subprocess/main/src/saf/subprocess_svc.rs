@@ -1,10 +1,10 @@
 //! SAF — `SubprocessSvc` factory wiring for subprocess execution.
 
 use crate::api::types::subprocess_svc::SubprocessSvc;
-use crate::core::default_process_validator::DefaultProcessValidator;
-use crate::core::default_subprocess_runner::DefaultSubprocessRunner;
-use crate::core::default_swe_edge_egress_process::DefaultSweEdgeEgressProcess;
-use crate::core::extension_runner::ExtensionRunner;
+use crate::core::default::process_validator::DefaultProcessValidator;
+use crate::core::default::subprocess_runner::DefaultSubprocessRunner;
+use crate::core::default::swe_edge_egress_process::DefaultSweEdgeEgressProcess;
+use crate::core::extension::extension_runner::ExtensionRunner;
 
 impl SubprocessSvc {
     /// Return a [`SubprocessRunner`] backed by `tokio::process::Command`.
@@ -32,7 +32,7 @@ impl SubprocessSvc {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn runner() -> impl crate::api::traits::subprocess_runner::SubprocessRunner {
+    pub fn runner() -> impl crate::api::traits::subprocess::runner::SubprocessRunner {
         DefaultSubprocessRunner
     }
 
@@ -81,8 +81,8 @@ impl SubprocessSvc {
     /// // runner: impl SubprocessRunner — use exactly like the default runner
     /// ```
     pub fn with_runner(
-        ext: impl crate::api::traits::subprocess_runner_extension::SubprocessRunnerExtension,
-    ) -> impl crate::api::traits::subprocess_runner::SubprocessRunner {
+        ext: impl crate::api::traits::subprocess::runner_extension::SubprocessRunnerExtension,
+    ) -> impl crate::api::traits::subprocess::runner::SubprocessRunner {
         ExtensionRunner::new(ext)
     }
 }
