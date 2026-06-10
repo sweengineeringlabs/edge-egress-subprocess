@@ -1,0 +1,165 @@
+[package]
+name         = "swe-edge-egress-subprocess"
+version.workspace      = true
+edition.workspace      = true
+license.workspace      = true
+rust-version.workspace = true
+authors.workspace      = true
+repository.workspace   = true
+description  = "edge — egress subprocess execution: ProcessRunner trait and DefaultProcessRunner."
+keywords     = ["process", "subprocess", "egress", "sea", "swe"]
+categories   = ["os"]
+
+[package.metadata.struct-engine]
+application_type = "lib"
+service_type     = "processor"
+
+[lib]
+path = "main/src/lib.rs"
+
+[[test]]
+name = "allow_list_int_test"
+path = "tests/allow_list_int_test.rs"
+
+[[test]]
+name = "configbuilder_int_test"
+path = "tests/configbuilder_int_test.rs"
+
+[[test]]
+name = "default_swe_edge_egress_process_int_test"
+path = "tests/default_swe_edge_egress_process_int_test.rs"
+
+[[test]]
+name = "error_int_test"
+path = "tests/error_int_test.rs"
+
+[[test]]
+name = "isolation_error_int_test"
+path = "tests/isolation_error_int_test.rs"
+
+[[test]]
+name = "isolation_profile_int_test"
+path = "tests/isolation_profile_int_test.rs"
+
+[[test]]
+name = "process_args_builder_int_test"
+path = "tests/process_args_builder_int_test.rs"
+
+[[test]]
+name = "process_args_int_test"
+path = "tests/process_args_int_test.rs"
+
+[[test]]
+name = "process_config_builder_int_test"
+path = "tests/process_config_builder_int_test.rs"
+
+[[test]]
+name = "process_config_int_test"
+path = "tests/process_config_int_test.rs"
+
+[[test]]
+name = "process_result_int_test"
+path = "tests/process_result_int_test.rs"
+
+[[test]]
+name = "process_runner_int_test"
+path = "tests/process_runner_int_test.rs"
+
+[[test]]
+name = "process_svc_int_test"
+path = "tests/process_svc_int_test.rs"
+
+[[test]]
+name = "processor_int_test"
+path = "tests/processor_int_test.rs"
+
+[[test]]
+name = "subprocess_args_int_test"
+path = "tests/subprocess_args_int_test.rs"
+
+[[test]]
+name = "subprocess_config_int_test"
+path = "tests/subprocess_config_int_test.rs"
+
+[[test]]
+name = "swe_edge_egress_process_api_int_test"
+path = "tests/swe_edge_egress_process_api_int_test.rs"
+
+[[test]]
+name = "swe_edge_egress_process_int_test"
+path = "tests/swe_edge_egress_process_int_test.rs"
+
+[[test]]
+name = "swe_edge_egress_process_test"
+path = "tests/swe_edge_egress_process_test.rs"
+
+[[test]]
+name = "traits_int_test"
+path = "tests/traits_int_test.rs"
+
+[[test]]
+name = "validator_int_test"
+path = "tests/validator_int_test.rs"
+
+[[test]]
+name = "process_runner_extension_int_test"
+path = "tests/process_runner_extension_int_test.rs"
+
+[[test]]
+name = "outcome_int_test"
+path = "tests/outcome_int_test.rs"
+
+[[test]]
+name = "application_config_builder_int_test"
+path = "tests/application_config_builder_int_test.rs"
+
+[[test]]
+name = "subprocess_svc_int_test"
+path = "tests/subprocess_svc_int_test.rs"
+
+[[test]]
+name = "subprocess_runner_int_test"
+path = "tests/subprocess_runner_int_test.rs"
+
+[[test]]
+name = "subprocess_runner_extension_int_test"
+path = "tests/subprocess_runner_extension_int_test.rs"
+
+[[test]]
+name = "subprocess_result_int_test"
+path = "tests/subprocess_result_int_test.rs"
+
+[[test]]
+name = "subprocess_args_builder_int_test"
+path = "tests/subprocess_args_builder_int_test.rs"
+
+[[test]]
+name = "subprocess_config_builder_int_test"
+path = "tests/subprocess_config_builder_int_test.rs"
+
+[[test]]
+name = "normalised_command_int_test"
+path = "tests/normalised_command_int_test.rs"
+
+[lints.rust]
+unsafe_code  = "deny"
+missing_docs = "warn"
+
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+
+[dependencies]
+futures   = "0.3"
+serde     = { version = "1.0", features = ["derive"] }
+thiserror = "2"
+tokio     = { version = "1.52", features = ["process", "time", "io-util", "macros"] }
+tracing   = { version = "0.1", default-features = false, features = ["std"] }
+swe-edge-configbuilder = { workspace = true }
+
+[target.'cfg(unix)'.dependencies]
+nix = { version = "0.27", features = ["resource"] }
+
+[dev-dependencies]
+tokio                  = { version = "1.52", features = ["macros", "rt-multi-thread"] }
+swe-edge-configbuilder = { workspace = true }
